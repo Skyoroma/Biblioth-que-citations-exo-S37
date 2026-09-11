@@ -28,7 +28,7 @@ final class CitationController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/delete', name: 'delete', methods: ['POST'])]
+    #[Route('/citation/{id}/delete', name: 'app_citation_delete', methods: ['POST'])]
     public function supprimer(Citation $citation, Request $request, EntityManagerInterface $em): Response
     {
         $token = $request->request->get('_token');

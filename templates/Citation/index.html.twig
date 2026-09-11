@@ -41,9 +41,9 @@
             {% endif %}
 
             <form method="post"
-                action="{{ path('app_products_delete', {id: product.id}) }}"
+                action="{{ path('app_citation_delete', {id: citation.id}) }}"
                 onsubmit="return confirm('Voulez-vous vraiment supprimer ce produit ?');">
-                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ citation.id) }}">
                 <button type="submit">Supprimer</button>
             </form>
         </div>

@@ -18,8 +18,10 @@ final class CitationController extends AbstractController
     #[Route('/citation', name: 'citation')]
     public function index(): Response
     {
+        $citations = $this->citationRepository->findAll();
+
         return $this->render('citation/index.html.twig', [
-            'text' => 'CitationController',
+            'citations' => $citations,
         ]);
     }
 }

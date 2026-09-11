@@ -27,6 +27,10 @@
 
 <div class="example-wrapper">
 
+    <a href="{{ path('citation_add')}}">
+        Ajouter une citation
+    </a>
+
     {% for citation in citations %}
         <div class="citation">
             <h2>{{ citation.texte }}</h2>
@@ -37,7 +41,7 @@
             <p>Langue : {{ citation.langue }}</p>
             <p>Popularite en étoile : {{ citation.popularite }}</p>
             {% if citation.favori > 0 %}
-                <p>Favori</p>
+                <p>Favoris</p>
             {% endif %}
 
             <form method="post"

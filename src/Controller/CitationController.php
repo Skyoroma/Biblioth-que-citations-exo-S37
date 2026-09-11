@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Entity\Citation;
+use App\Form\CitationType;
 use App\Repository\CitationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,6 +26,48 @@ final class CitationController extends AbstractController
 
         return $this->render('citation/index.html.twig', [
             'citations' => $citations,
+        ]);
+    }
+
+    
+    #[Route('/{id}', name: 'citation_show', methods: ['GET'], requirements: ['id' => '\d+'])]
+    public function show(Citation $citation): Response
+    {
+        return $this->render('citation/show.html.twig', [
+            'citation' => $citation,
+        ]);
+    }
+
+    #[Route('/add', name:'citation_add', methods: ['GET', 'POST'])]
+    public function add(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $citation = new Citation();
+
+        $form = $this->createForm(
+            CitationType::class, 
+            $citation
+        );
+
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($citation);
+            $entityManager->flush();
+
+                        $this->addFlash(
+                'success',
+                'Le produit a été ajouté avec succès.'
+            );
+
+            return $this->redirectToRoute(
+                'citation_show',
+                ['id' => $citation->getId()]
+            );
+
+        }
+
+        return $this->render('citation/add.html.twig', [
+            'form' => $form,
         ]);
     }
 

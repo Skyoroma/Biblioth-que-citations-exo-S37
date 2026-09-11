@@ -9,6 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CitationRepository::class)]
 class Citation
 {
+
+    public function __construct()
+    {
+        $this->dateAjout = new \DateTime();
+    }
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -93,6 +99,10 @@ class Citation
 
     public function setDateAjout(\DateTime $dateAjout): static
     {
+        if ($this->dateAjout === null) {
+            $this->dateAjout = new \DateTime();
+        }
+        
         $this->dateAjout = $dateAjout;
 
         return $this;

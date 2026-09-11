@@ -1,0 +1,9 @@
+{% extends 'citation/add.html.twig' %}
+
+{% block title %}Modifier la citation{% endblock %}
+
+{% block form_title %}Modifier la citation{% endblock %}
+
+{% block back_link %}
+    <a href="{{ path('citation_show', {id: citation.id}) }}" class="back">← Retour à la citation</a>
+{% endblock %}

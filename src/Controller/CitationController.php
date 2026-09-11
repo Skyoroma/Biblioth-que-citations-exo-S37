@@ -87,4 +87,22 @@ final class CitationController extends AbstractController
 
         return $this->redirectToRoute('citation_liste');
     }
+
+    #[Route('/citation/{id}/edit', name: 'citation_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
+    public function edit(Request $request, Citation $citation, EntityManagerInterface $em): Response
+    {
+        $form = $this->createForm(CitationType::class, $citation);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+
+            return $this->redirectToRoute('citation_show', ['id' => $citation->getId()]);
+        }
+
+        return $this->render('citation/edit.html.twig', [
+            'citation' => $citation,
+            'form' => $form,
+        ]);
+    }
 }

@@ -198,12 +198,16 @@
                     <span class="date">Ajoutée le {{ citation.dateAjout|date('d/m/Y') }}</span>
                 </div>
 
-                <form method="post"
-                      action="{{ path('app_citation_delete', {id: citation.id}) }}"
-                      onsubmit="return confirm('Voulez-vous vraiment supprimer cette citation ?');">
-                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ citation.id) }}">
-                    <button type="submit" class="btn btn-delete">Supprimer</button>
-                </form>
+                <div class="actions">
+                    <a href="{{ path('citation_show', {id: citation.id}) }}" class="btn btn-show">Voir</a>
+
+                    <form method="post"
+                        action="{{ path('app_citation_delete', {id: citation.id}) }}"
+                        onsubmit="return confirm('Voulez-vous vraiment supprimer cette citation ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ citation.id) }}">
+                        <button type="submit" class="btn btn-delete">Supprimer</button>
+                    </form>
+                </div>
             </div>
         </div>
     {% else %}

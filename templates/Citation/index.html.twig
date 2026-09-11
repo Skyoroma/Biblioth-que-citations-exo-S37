@@ -32,19 +32,20 @@
             <h2>{{ citation.texte }}</h2>
             <p>Auteur : {{ citation.auteur }}</p>
             <p>Source : {{ citation.source }}</p>
+            <p>Ajouter le : {{ citation.dateAjout|date('d/m/Y') }}</p>
             <p>Categorie : {{ citation.categorie }}</p>
             <p>Langue : {{ citation.langue }}</p>
-            <p>Popularite : {{ citation.popularite }}</p>
+            <p>Popularite en étoile : {{ citation.popularite }}</p>
             {% if citation.favori > 0 %}
                 <p>Favori</p>
             {% endif %}
 
-            {# <form method="post"
+            <form method="post"
                 action="{{ path('app_products_delete', {id: product.id}) }}"
                 onsubmit="return confirm('Voulez-vous vraiment supprimer ce produit ?');">
                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
                 <button type="submit">Supprimer</button>
-            </form> #}
+            </form>
         </div>
     {% else %}
         <p>Aucune citation en base.</p>

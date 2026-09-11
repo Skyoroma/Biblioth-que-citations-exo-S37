@@ -20,7 +20,7 @@ class Citation
     #[ORM\Column(length: 255)]
     private ?string $auteur = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $source = null;
 
     #[ORM\Column]

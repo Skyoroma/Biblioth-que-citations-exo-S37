@@ -1,0 +1,186 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Citation de {{ citation.auteur }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        body {
+            background: #f0f2f5;
+            margin: 0;
+        }
+
+        .example-wrapper {
+            max-width: 700px;
+            width: 95%;
+            margin: 2em auto;
+            font: 16px/1.5 system-ui, sans-serif;
+            color: #333;
+        }
+
+        .citation-card {
+            position: relative;
+            background: #fff;
+            padding: 2.5em 2em 2em;
+            border-top: 5px solid #4f46e5;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .citation-card blockquote {
+            margin: 0 0 1em;
+            font-size: 1.7em;
+            line-height: 1.4;
+            font-style: italic;
+            font-family: Georgia, serif;
+            color: #222;
+            text-align: center;
+        }
+
+        .citation-card blockquote::before {
+            content: "« ";
+            color: #4f46e5;
+        }
+
+        .citation-card blockquote::after {
+            content: " »";
+            color: #4f46e5;
+        }
+
+        .auteur {
+            margin: 0 0 2em;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .auteur .source {
+            font-weight: normal;
+            color: #888;
+        }
+
+        .favori {
+            position: absolute;
+            top: 1em;
+            right: 1em;
+            background: #fef3c7;
+            color: #b45309;
+            padding: 0.2em 0.7em;
+            border-radius: 20px;
+            font-size: 0.85em;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: max-content 1fr;
+            gap: 0.6em 1.5em;
+            margin: 0 0 2em;
+            padding-top: 1.5em;
+            border-top: 1px solid #eee;
+        }
+
+        .details dt {
+            font-weight: 600;
+            color: #888;
+        }
+
+        .details dd {
+            margin: 0;
+        }
+
+        .etoiles {
+            color: #f59e0b;
+            font-size: 1.2em;
+            letter-spacing: 2px;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5em;
+        }
+
+        .actions form {
+            margin: 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.6em 1.2em;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95em;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .btn-back {
+            background: #eef2ff;
+            color: #4338ca;
+        }
+
+        .btn-back:hover {
+            background: #e0e7ff;
+        }
+
+        .btn-delete {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .btn-delete:hover {
+            background: #fecaca;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    <div class="citation-card">
+
+        {% if citation.favori > 0 %}
+            <span class="favori">★ Favori</span>
+        {% endif %}
+
+        <blockquote>{{ citation.texte }}</blockquote>
+
+        <p class="auteur">
+            — {{ citation.auteur }}
+            {% if citation.source %}
+                <span class="source">, {{ citation.source }}</span>
+            {% endif %}
+        </p>
+
+        <dl class="details">
+            <dt>Catégorie</dt>
+            <dd>{{ citation.categorie }}</dd>
+
+            <dt>Langue</dt>
+            <dd>{{ citation.langue }}</dd>
+
+            <dt>Popularité</dt>
+            <dd class="etoiles">
+                {% for i in 1..5 %}{{ i <= citation.popularite ? '★' : '☆' }}{% endfor %}
+            </dd>
+
+            <dt>Ajoutée le</dt>
+            <dd>{{ citation.dateAjout|date('d/m/Y') }}</dd>
+        </dl>
+
+        <div class="actions">
+            <a href="{{ path('citation_liste') }}" class="btn btn-back">← Retour à la liste</a>
+
+            <form method="post"
+                  action="{{ path('app_citation_delete', {id: citation.id}) }}"
+                  onsubmit="return confirm('Voulez-vous vraiment supprimer cette citation ?');">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ citation.id) }}">
+                <button type="submit" class="btn btn-delete">Supprimer</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
